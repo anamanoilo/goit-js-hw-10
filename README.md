@@ -1,58 +1,22 @@
-# Parcel boilerplate
+# Task - country search
+* Create a front-end part of the application to search for information about countries by their partial or full names. 
 
-## Скрытые файлы
+## HTTP requests
+* Use the public API Rest Countries, namely resource name, which returns an array of country objects that match the search criteria. 
+Write a function, fetchCountries(name), that makes an HTTP request to resource name and returns a promise with an array of countries - the result of your request. 
 
-Включите отображение скрытых файлов и папок в проводнике своей операционной системы, иначе вы не
-сможете выбрать и скопировать себе файлы настроек проекта, имена которых начинаются с точки.
+## Search box
+* The user enters the name of the country to search for in the input#search-box text field. HTTP requests are made by typing the country name, that is, on the input event. 
 
-## Зависимости
+* It is necessary to use the Debounce technique on the event handler and make an HTTP request 300ms after the user has stopped typing text. Use the **lodash.debounce** package.
 
-На компьютере должена быть установлена LTS-версия [Node.js](https://nodejs.org/en/) со всеми
-дополнительными инструментами кроме **Chocolatey** - его ставить не нужно.
+* If the user clears the search box completely, the HTTP request is not executed, and the country list markup or country information disappears.
+Sanitize the entered line using the trim() method, which will solve the problem when there are only spaces in the input field or at the beginning/end of the line.
 
-## Перед началом работы
+## Interface
+* If the back-end returns more than 10 countries, a notification appears in the interface saying that the name should be more specific. For notifications, use the notiflix library and display this line: "Too many matches found. Please enter a more specific name.".
+* If the back-end returns from 2 to 10 countries, a list of found countries is displayed under the text field. Each list item consists of a flag and country name.
+* If the request results in an array with one country, the interface displays the card markup with information about the country: flag, name, capital, population and languages.
 
-Один раз на проект установить все зависимости.
-
-```shell
-npm ci
-```
-
-### Разработка
-
-Запустить режим разработки.
-
-```shell
-npm run dev
-```
-
-Во вкладке браузера перейти по адресу [http://localhost:1234](http://localhost:1234).
-
-### Деплой
-
-Сборка будет автоматически собирать и деплоить продакшен версию проекта на GitHub Pages, в ветку
-`gh-pages`, каждый раз когда обновляется ветка `main`. Например, после прямого пуша или принятого
-пул-реквеста. Для этого необходимо в файле `package.json` отредактировать поле `homepage` и скрипт
-`build`, заменив `имя_пользователя` и `имя_репозитория` на свои.
-
-```json
-"homepage": "https://имя_пользователя.github.io/имя_репозитория",
-"scripts": {
-  "build": "parcel build src/*.html --public-url /имя_репозитория/"
-},
-```
-
-На всякий случай стоит зайти в настройки репозитория `Settings` > `Pages` и убедиться что продакшен
-версии файлов раздаются из папки `/root` ветки `gh-pages`.
-
-Через какое-то время живую страницу можно будет посмотреть по адресу указанному в отредактированном
-свойстве `homepage`, например
-[https://goitacademy.github.io/parcel-project-template](https://goitacademy.github.io/parcel-project-template).
-
-## Файлы и папки
-
-- Все паршалы файлов стилей должны лежать в папке `src/sass` и импортироваться в
-  `src/sass/main.scss`
-- Изображения добавляйте в папку `src/images`, заранее оптимизировав их. Сборщик просто копирует
-  используемые изображения чтобы не нагружать систему оптимизацией картинок, так как на слабых
-  компьютерах это может занять много времени.
+## Error handling
+* If the user enters the name of a country that does not exist, the back-end will return not an empty array, but an error with the status code 404 - not found. If you do not handle this, the user will never know that the search has not returned any results. Add a notification, "Oops, there is no country with that name", in case of an error using the notiflix library.
